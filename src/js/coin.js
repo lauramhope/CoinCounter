@@ -1,50 +1,41 @@
-//Buisiness Logic
+// //Buisiness Logic
 
-// export default function CoinCounter(initialValue) {
-//   this.initialValue = initialValue;
-  // const quarterValue = 0.25;
-  // const dimeValue = 0.10;
-  // const nickelValue = 0.05;
-  // const pennyValue = 0.01;
 
-//   this.numOfQuarters = 0;
-//   this.numOfDimes = 0;
-//   this.numOfNickels = 0;
-//   this.numOfPennies = 0;
-// }
+  // CoinCounter using recursion
 
-const coinCounter = function(amount, quartersAmount, dimesAmount, nickelsAmount, penniesAmount) {
-
+export const coinCounterRecursion = (amount, quarters = 0, dimes = 0, nickels = 0, pennies = 0) => {
   if (isNaN(amount)) {
-    console.log("error, amount is not a number.")
     return;
-  } else if (amount >= 0.25) {
-    quartersAmount = quartersAmount+1;
-    console.log(amount);
-    // console.log(quartersAmount);
-    return coinCounter((amount - 0.25), quartersAmount, 0, 0, 0);
-  } else if (amount >= 0.10 && amount < 0.25) {
-    dimesAmount = dimesAmount+1;
-    console.log(dimesAmount);
-    return coinCounter((amount - 0.10), quartersAmount, dimesAmount, 0, 0);
-  } else if (amount >= 0.05 && amount < 0.10) {
-    nickelsAmount = nickelsAmount+1;
-    console.log(nickelsAmount);
-    return coinCounter((amount - 0.05), quartersAmount, dimesAmount, nickelsAmount, 0);
-  } else if (amount < 0.05 && amount > 0) {
-    penniesAmount =penniesAmount+1;
-    console.log(penniesAmount);
-    return coinCounter((amount - 0.01), quartersAmount, dimesAmount, nickelsAmount, penniesAmount);
-  } else if (amount === 0) {
-  console.log(quartersAmount);
-  console.log(dimesAmount);
-  console.log(nickelsAmount);
-  console.log(penniesAmount);
-  return penniesAmount;
+  }
+
+  if (amount === 0) {
+    return [quarters, dimes, nickels, pennies];
+  }
+
+  if (amount >= 25) {
+    quarters += 1;
+    const newAmount = amount - 25;
+    return coinCounterRecursion(newAmount, quarters, dimes, nickels, pennies);
+  } 
+
+  if (amount >= 10 && amount < 25) {
+    dimes += 1;
+    const newAmount = amount - 10;
+    return coinCounterRecursion(newAmount, quarters, dimes, nickels, pennies);
+  }
+
+  if (amount >= 5 && amount < 10) {
+    nickels += 1;
+    const newAmount = amount - 5;
+    return coinCounterRecursion(newAmount, quarters, dimes, nickels, pennies);
+  }
+
+  if (amount >= 1 && amount < 5) {
+    pennies += 1;
+    const newAmount = amount - 1;
+    return coinCounterRecursion(newAmount, quarters, dimes, nickels, pennies);
   }
 }
-
-
 
 function coinCounter(amount) {
   if (isNaN(amount)) {
@@ -80,7 +71,7 @@ function coinCounterClosure(amount){
         result.push(Math.floor(amount / 0.05));
         amount = amount % 0.05;
         return function penniesCounter(){
-          result.push(Math.floor(amount / 0.01));
+          result.push(Math.round(amount / 0.01));
           amount = amount % 0.01;
           return result;
         }
